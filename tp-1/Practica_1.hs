@@ -118,6 +118,7 @@ implica :: Bool -> Bool -> Bool
 implica True False = False
 implica _ _ = True
 
+--sin doble pattern matching.
 implica2 :: Bool -> Bool -> Bool
 implica2 _  True = True
 implica2 False _ = True
@@ -131,10 +132,24 @@ yTambien :: Bool -> Bool -> Bool
 yTambien  True True = True
 yTambien _ _ = False
 
+
+--sin doble pattern matching.
+yTambien2 :: Bool -> Bool -> Bool
+yTambien2 _ False = False
+yTambien2 False _ = False
+yTambien2 _ _ = True
+
 --d
 oBien :: Bool -> Bool -> Bool
 oBien False False = False
 oBien _ _ = True
+
+
+--sin doble pattern matching.
+oBien2 :: Bool -> Bool -> Bool
+oBien2 True _ = True
+oBien2 _ True = True
+oBien2 _ _ = False
 
 
 --4. REGISTROS
