@@ -234,7 +234,7 @@ tipoDelPokemonEsSuperior _ _ = False
 -- Creación de dos pokes para chequear
 
 pokemon1 = POKE Planta 20
-pokemon2 = POKE Planta 10
+pokemon2 = POKE Fuego 10
 
 entrenador1 = E "Nicole" pokemon1 pokemon2
 entrenador2 = E "Nacho" pokemon1 pokemon2
@@ -250,17 +250,19 @@ cantidadDePokemonDe tp (E _ p1 p2) =
   otra manera de hacerlo usando deriving Eq                                      
 -}
 cantidadDePokemonDe :: TipoDePokemon -> Entrenador -> Int
-cantidadDePokemonDe tp (E _ p1 p2) = 
-                                if mismoTipoDelPokemon (tipoDelPokemon p1) tp && mismoTipoDelPokemon (tipoDelPokemon p2) tp
-                                    then 2
-                                    else if mismoTipoDelPokemon (tipoDelPokemon p1) tp || mismoTipoDelPokemon (tipoDelPokemon p2) tp
-                                        then 1
-                                        else 0           
+cantidadDePokemonDe tp (E _ p1 p2) = unoMismoTipoDelPokemonCeroSino (tipoDelPokemon p1) tp + unoMismoTipoDelPokemonCeroSino (tipoDelPokemon p2) tp
+                                               
                                                                     
 
 tipoDelPokemon :: Pokemon -> TipoDePokemon
 tipoDelPokemon (POKE t _ )= t          
 
+
+unoMismoTipoDelPokemonCeroSino :: TipoDePokemon -> TipoDePokemon -> Int
+unoMismoTipoDelPokemonCeroSino Agua Agua = 1
+unoMismoTipoDelPokemonCeroSino Planta Planta = 1
+unoMismoTipoDelPokemonCeroSino Fuego Fuego = 1
+unoMismoTipoDelPokemonCeroSino _ _ = 0
 
 mismoTipoDelPokemon :: TipoDePokemon -> TipoDePokemon -> Bool
 mismoTipoDelPokemon Agua Agua = True
