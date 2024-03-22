@@ -135,9 +135,9 @@ yTambien _ _ = False
 
 --sin doble pattern matching.
 yTambien2 :: Bool -> Bool -> Bool
-yTambien2 _ False = False
-yTambien2 False _ = False
-yTambien2 _ _ = True
+yTambien2 True b = b
+yTambien2 _ _ = False
+
 
 --d
 oBien :: Bool -> Bool -> Bool
@@ -148,8 +148,8 @@ oBien _ _ = True
 --sin doble pattern matching.
 oBien2 :: Bool -> Bool -> Bool
 oBien2 True _ = True
-oBien2 _ True = True
-oBien2 _ _ = False
+oBien2 _ b = b
+
 
 
 --4. REGISTROS
