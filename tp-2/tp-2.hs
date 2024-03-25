@@ -54,7 +54,7 @@ aplanar (l : ls) = l ++ aplanar ls
 
 pertenece :: Eq a => a -> [a] -> Bool
 pertenece _ [] = False
-pertenece x (y : []) = x == y 
+--pertenece x (y : []) = x == y 
 pertenece x (y : ys) = if x == y
                         then True
                         else pertenece x ys
@@ -171,6 +171,7 @@ listaDeEdadesDePersonas (p : ps) = edad p :  listaDeEdadesDePersonas ps
 
 persona1 = P "Nicole" 25
 persona2 = P "Nacho"  33
+persona3 = P "Marta"  53
 
 --3.1.a
 
@@ -189,7 +190,8 @@ promedioEdad ps =  div (sumatoria (listaDeEdadesDePersonas ps)) (longitud ps)
 --3.1.c
 
 elMasViejo :: [Persona] -> Persona
-elMasViejo [p] = p
+--PRECOND:  la lista al menos posee una persona
+elMasViejo (p : []) = p
 elMasViejo (p : ps) = if edad p > edad (elMasViejo ps)
                         then p
                         else elMasViejo ps
