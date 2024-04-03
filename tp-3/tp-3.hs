@@ -144,7 +144,7 @@ el rango es 3 y 5, indica la cantidad de tesoros que hay entre hacer 3 pasos y h
 incluidos tanto 3 como 5 en el resultado.
 -}
 cantTesorosEntre :: Int -> Int -> Camino -> Int                                              --Camino ( Nada (Nada (Nada (Cofre([tesoro] Fin))))) 1 2
-
+--PRECOND: j (el segundo número pasado) tiene que ser >= a i (el primer número pasado)
                                                                                             -- Camino (Nada (Cofre  [Tesoro], Fin)) 0,1
 --llegar hasta el minimo de los pasos y despues contar los tesoros hasta al proximo rango
 cantTesorosEntre _ _ Fin              = 0 --si no hay camino no hay tesoro
@@ -175,19 +175,19 @@ tree1 :: Tree Int
 tree1 = NodeT 1 tree2 tree3 -- preguntar porque no lo toma si esta asi
 
 tree2 :: Tree Int
-tree2 = NodeT 2 tree4 tree6
+tree2 = NodeT 2 tree4 tree5
 
 tree3 :: Tree Int
-tree3 = NodeT 4 tree5 tree8
+tree3 = NodeT 3 tree6 tree7
 
 tree4 :: Tree Int
-tree4 = NodeT 3 EmptyT EmptyT
+tree4 = NodeT 4 EmptyT EmptyT
 
 tree5 :: Tree Int
 tree5 = NodeT 5 EmptyT EmptyT
 
 tree6:: Tree Int
-tree6 = NodeT 10 tree7 EmptyT
+tree6 = NodeT 6 EmptyT EmptyT
 
 tree7:: Tree Int
 tree7 = NodeT 7 EmptyT EmptyT
@@ -306,11 +306,11 @@ elementosDelArbol (NodeT x ramaizq ramader) = x : elementosDelArbol ramaizq ++ e
 
 todosLosCaminos :: Tree a -> [[a]]
 todosLosCaminos EmptyT = []
-todosLosCaminos (NodeT x t1 t2) = [[x]] ++ aux x (todosLosCaminos t1) ++ aux x (todosLosCaminos t2)
+todosLosCaminos (NodeT x t1 t2) = [[x]] ++ restoDelCamino x (todosLosCaminos t1) ++ restoDelCamino x (todosLosCaminos t2)
 
-aux :: a -> [[a]] -> [[a]]
-aux x [] = []
-aux x (ls: lss) = (x : ls) : aux x lss
+restoDelCamino :: a -> [[a]] -> [[a]]
+restoDelCamino x [] = []
+restoDelCamino x (ls: lss) = (x : ls) : restoDelCamino x lss
 --                  [a, b]      [[]]
 {-
 aux 4 ([5]: []) = (4 : [5]) : [[]]
