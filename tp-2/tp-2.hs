@@ -19,29 +19,21 @@ sucesores [] = []
 sucesores (x : xs) = (x + 1) : sucesores xs
 
 --1.4
-
+--Dada una lista de booleanos devuelve True si todos sus elementos son True.
 conjuncion :: [Bool] -> Bool
-conjuncion [] = False -- si ya me viene una lista vacia es false
-conjuncion (b : [] ) = b  -- si solo queda un elemento y el resto es una lista vacia, devuelvo el valor de ese elemento
-conjuncion (b : bs) = if not b
-                        then False
-                        else conjuncion bs
+conjuncion [] = True 
+conjuncion (b : bs) = if b
+                        then conjuncion bs
+                        else False
     
-{-
-conjuncion :: [Bool] -> Bool
-conjuncion [] = False -- si ya me viene una lista vacia es false
-conjuncion (b : [] ) = b  -- si solo queda un elemento y el resto es una lista vacia, devuelvo el valor de ese elemento
-conjuncion (False : xs ) = False
-conjuncion (b : bs) = b && conjuncion bs
--}  
+
 
 -- 1.5 
-
+--Dada una lista de booleanos devuelve True si alguno de sus elementos es True.
 disyuncion :: [Bool] -> Bool
 disyuncion [] = False
-disyuncion (b : []) = b
 disyuncion (b : bs) = if b 
-                        then True -- b
+                        then b 
                         else disyuncion bs
 
 --1.6
