@@ -316,8 +316,8 @@ data Empresa = ConsEmpresa [Rol] deriving Show
 empresa1 = ConsEmpresa [rol2, rol2, rol3]
 
 rol1= Developer Senior proyecto1 -- puede haber varias personas trabajando en el mismo proyecto
-rol2 = Developer Senior proyecto2
-rol3 = Developer Junior proyecto1
+rol2 = Developer Senior proyecto3
+rol3 = Developer Senior proyecto3
 
 proyecto1= ConsProyecto "Netflix"
 proyecto2 = ConsProyecto "Spotify"
@@ -353,25 +353,48 @@ nombreDelProyecto (ConsProyecto n) = n
 
 --Dada una empresa indica la cantidad de desarrolladores senior que posee, que pertecen además a los proyectos dados por parámetro
 losDevSenior :: Empresa -> [Proyecto] -> Int
-losDevSenior (ConsEmpresa rs) ps = length (proyectosEnComun(proyectosSenior rs) ps)
+losDevSenior (ConsEmpresa rs) ps = cantidadDeProyectosEnComunHechosPorSenior(proyectosSenior rs) ps
 
 proyectosSenior :: [Rol] -> [Proyecto]
 proyectosSenior [] = []
 proyectosSenior (r : rs) = proyectoSeniorDelRolActual r ++  proyectosSenior rs 
 
 proyectoSeniorDelRolActual :: Rol -> [Proyecto]
+proyectoSeniorDelRolActual rol = if esSenior (seniority rol)
+                                                then [(proyecto rol)]
+                                                else []
+
+esSenior :: Seniority -> Bool
+esSenior Senior = True
+esSenior _ = False
+
+seniority :: Rol -> Seniority
+seniority (Developer s _ ) = s
+seniority (Management s _) = s
+
+proyecto :: Rol -> Proyecto
+proyecto (Developer _ p) = p
+proyecto(Management _ p) = p
+
+{-proyectoSeniorDelRolActual :: Rol -> [Proyecto]
 proyectoSeniorDelRolActual (Developer Senior p) = [p]
 proyectoSeniorDelRolActual (Management Senior p) = [p]
-proyectoSeniorDelRolActual _ = []
+proyectoSeniorDelRolActual _ = []-}
 
--- devuelve una lista de proyectos que se encuentran en ambas listas
+cantidadDeProyectosEnComunHechosPorSenior :: [Proyecto] -> [Proyecto] -> Int
+cantidadDeProyectosEnComunHechosPorSenior [] _ = 0
+cantidadDeProyectosEnComunHechosPorSenior (p : ps1) ps2 = if listaProyectosContiene ps2 p
+                                                            then 1 + cantidadDeProyectosEnComunHechosPorSenior ps1 ps2
+                                                            else cantidadDeProyectosEnComunHechosPorSenior ps1 ps2
+
+{--- devuelve una lista de proyectos que se encuentran en ambas listas
 proyectosEnComun :: [Proyecto] -> [Proyecto] -> [Proyecto]
 proyectosEnComun [] _ = []
 proyectosEnComun _ [] = []
 proyectosEnComun (p : ps1) ps2 = if listaProyectosContiene ps2 p
                                     then p : proyectosEnComun ps1 ps2
                                     else proyectosEnComun ps1 ps2
-
+-}
 listaProyectosContiene :: [Proyecto] -> Proyecto -> Bool
 listaProyectosContiene [] _ = False
 listaProyectosContiene (p1 : p1s) p2 = mismoProyecto p1 p2 || listaProyectosContiene p1s p2
