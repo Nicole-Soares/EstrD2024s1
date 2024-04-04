@@ -80,19 +80,42 @@ lasDeLongitudMayorA n (x : xs) = if longitud x > n
                                     else lasDeLongitudMayorA n xs
 
 --1.11
+--Dados una lista y un elemento, devuelve una lista con ese elemento agregado al final de la lista.
 
 agregarAlFinal :: [a] -> a -> [a]
-agregarAlFinal xs y = xs ++ y : [] 
+agregarAlFinal [] e = [e]
+agregarAlFinal (x : xs) e = x : agregarAlFinal xs e
+
+
+
+--agregarAlFinal xs y = xs ++ y : [] 
 
 --1.12
+--Dadas dos listas devuelve la lista con todos los elementos de la primera lista y todos los elementos de la segunda a continuación. Defnida en Haskell como (++).
 
 agregar :: [a] -> [a] -> [a]
-agregar xs ys = xs ++ ys
+agregar [] [] = []
+agregar [] e = e
+agregar (x : xs)  ys = x : agregar xs ys
 
 --1.13
 
+--Dada una lista devuelve la lista con los mismos elementos de atrás para adelante. Definida en Haskell como reverse
+
 reversa :: [a] -> [a]
-reversa xs = reverse xs
+reversa [] = [] -- Si la lista es vacía, devuelve una lista vacía
+reversa (x:xs) = agregarPrimeroAlFinal (reversa xs) [x] -- Agrega el primer elemento al final de la lista invertida recursivamente
+
+agregarPrimeroAlFinal :: [a] -> [a] -> [a]
+agregarPrimeroAlFinal [] ys = ys -- Si la primera lista es vacía, devuelve la segunda lista
+agregarPrimeroAlFinal (z:zs) ys = z : agregarPrimeroAlFinal zs ys 
+   
+
+    --(2 : [4, 5]) = bla bla (reversa [4, 5]) [2]
+        --(4 : [5]) = bla bla (reversa [5]) [4]            -- [5] [4] = (5 : []) [4] = 5 : bla bla [] [4]      --  [] [4] = [4] == [5, 4]
+        --(5 : []) = bla bla (reversa []) [5]             -- [] [5] = [5]
+        -- []
+
 
 --1.14
 
