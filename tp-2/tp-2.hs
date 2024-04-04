@@ -313,7 +313,7 @@ data Proyecto = ConsProyecto String deriving (Show, Eq)
 data Rol = Developer Seniority Proyecto | Management Seniority Proyecto deriving Show
 data Empresa = ConsEmpresa [Rol] deriving Show
 
-empresa1 = ConsEmpresa [rol2, rol2, rol3]
+empresa1 = ConsEmpresa [rol1, rol2, rol3]
 
 rol1= Developer Senior proyecto1 -- puede haber varias personas trabajando en el mismo proyecto
 rol2 = Developer Senior proyecto3
@@ -423,9 +423,10 @@ cantDeEmpleadosQueTrabajanEn (r : rs) ps =    if contiene ps (proyectoDelRolActu
 --3.3.d
 
 --tener una lista de todos los proyectos de la empresa dada, abrirla y creo una subtarea el cual sumo la cantidad de empleados del proyecto pasado y asi con el resto, una recursion
-asignadosPorProyecto :: Empresa -> [(Proyecto, Int)]
+{-asignadosPorProyecto :: Empresa -> [(Proyecto, Int)]
 --Devuelve una lista de pares que representa a los proyectos (sin repetir) junto con su cantidad de personas involucradas.
 asignadosPorProyecto e = listaDeTuplasDeEmpleadosYSuProyecto (proyectos e) (rolesDeLaEmpresa e)
+
 
 listaDeTuplasDeEmpleadosYSuProyecto  :: [Proyecto] -> [Rol]  -> [(Proyecto, Int)] --recorre proyectos para saber la cantidad de empleados de cada uno
 listaDeTuplasDeEmpleadosYSuProyecto [] _        = []
@@ -439,10 +440,35 @@ cantEmpleadosPorProyecto p (r : rs) =   if mismoProyecto p (proyectoDelRol r)
                                             then 1 + cantEmpleadosPorProyecto p rs
                                             else cantEmpleadosPorProyecto p rs
     
-
+-}
 proyectoDelRol :: Rol -> Proyecto
 proyectoDelRol (Developer _ p) = p
 proyectoDelRol (Management _ p) = p
 
 rolesDeLaEmpresa :: Empresa -> [Rol]
 rolesDeLaEmpresa (ConsEmpresa rs) = rs
+
+
+--
+
+asignadosPorProyecto :: Empresa -> [(Proyecto, Int)]
+asignadosPorProyecto (ConsEmpresa rl) = listaDeTuplasDeEmpleadosYSuProyecto rl
+listaDeTuplasDeEmpleadosYSuProyecto  ::  [Rol]  -> [(Proyecto, Int)]
+listaDeTuplasDeEmpleadosYSuProyecto [] = []
+listaDeTuplasDeEmpleadosYSuProyecto (r: rs) =  unoSiEstaEnLaListaSinoCreoTupla r (listaDeTuplasDeEmpleadosYSuProyecto rs)
+
+unoSiEstaEnLaListaSinoCreoTupla :: Rol -> [(Proyecto, Int)] -> [(Proyecto, Int)]
+unoSiEstaEnLaListaSinoCreoTupla r [] = [(proyectoDelRol r , 1)]
+unoSiEstaEnLaListaSinoCreoTupla r (t : ts) = if mismoProyecto (proyectoDelRol r) (fst t) 
+                                                then  (fst t, snd t + 1) : ts
+                                                else t : unoSiEstaEnLaListaSinoCreoTupla r ts
+                                                
+proyectoIncluido :: Proyecto -> [(Proyecto, Int)] -> Bool
+proyectoIncluido _ [] = False
+proyectoIncluido p (l : lts) = mismoProyectoEnLaTupla p (fst l) 
+
+mismoProyectoEnLaTupla :: Proyecto -> Proyecto -> Bool
+mismoProyectoEnLaTupla (ConsProyecto n) (ConsProyecto n2) = n == n2
+
+
+
