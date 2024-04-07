@@ -91,8 +91,7 @@ agregarAlFinal (x : xs) e = x : agregarAlFinal xs e
 --Dadas dos listas devuelve la lista con todos los elementos de la primera lista y todos los elementos de la segunda a continuación. Defnida en Haskell como (++).
 
 agregar :: [a] -> [a] -> [a]
-agregar [] [] = []
-agregar [] e = e
+agregar [] ys = ys
 agregar (x : xs)  ys = x : agregar xs ys
 
 --1.13
@@ -101,12 +100,12 @@ agregar (x : xs)  ys = x : agregar xs ys
 
 reversa :: [a] -> [a]
 reversa [] = [] -- Si la lista es vacía, devuelve una lista vacía
-reversa (x:xs) = agregarPrimeroAlFinal (reversa xs) [x] -- Agrega el primer elemento al final de la lista invertida recursivamente
+reversa (x:xs) = agregarAlFinal (reversa xs) x -- Agrega el primer elemento al final de la lista invertida recursivamente
 
-agregarPrimeroAlFinal :: [a] -> [a] -> [a]
+{-agregarPrimeroAlFinal :: [a] -> [a] -> [a]
 agregarPrimeroAlFinal [] ys = ys -- Si la primera lista es vacía, devuelve la segunda lista
 agregarPrimeroAlFinal (z:zs) ys = z : agregarPrimeroAlFinal zs ys 
-   
+   -}
 
     --(2 : [4, 5]) = bla bla (reversa [4, 5]) [2]
         --(4 : [5]) = bla bla (reversa [5]) [4]            -- [5] [4] = (5 : []) [4] = 5 : bla bla [] [4]      --  [] [4] = [4] == [5, 4]
@@ -129,8 +128,15 @@ maximo n1 n2 = if n1 > n2
 --1.15
 
 elMinimo :: Ord a => [a] -> a
-elMinimo xs = minimum xs
+--PRECOND: no puede ser recibir una lista vacía
+elMinimo [] = error "no puede ser una lista vacia"
+elMinimo (x : []) = x
+elMinimo (x : xs) = compararPorElMinimo x (elMinimo xs)
 
+compararPorElMinimo :: Ord a => a -> a -> a
+compararPorElMinimo x y = if x < y
+                            then x
+                            else y
 
 --2 RECURSIÓN SOBRE NÚMEROS
 
