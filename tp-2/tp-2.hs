@@ -22,11 +22,9 @@ sucesores (x : xs) = (x + 1) : sucesores xs
 --Dada una lista de booleanos devuelve True si todos sus elementos son True.
 conjuncion :: [Bool] -> Bool
 conjuncion [] = True 
-conjuncion (b : bs) = if b
-                        then conjuncion bs
-                        else False
+conjuncion (b : bs) = b && conjuncion bs
     
-
+ 
 
 -- 1.5 
 --Dada una lista de booleanos devuelve True si alguno de sus elementos es True.
