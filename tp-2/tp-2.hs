@@ -30,9 +30,8 @@ conjuncion (b : bs) = b && conjuncion bs
 --Dada una lista de booleanos devuelve True si alguno de sus elementos es True.
 disyuncion :: [Bool] -> Bool
 disyuncion [] = False
-disyuncion (b : bs) = if b 
-                        then b 
-                        else disyuncion bs
+disyuncion (b : bs) =  b || disyuncion bs
+                        
 
 --1.6
 
