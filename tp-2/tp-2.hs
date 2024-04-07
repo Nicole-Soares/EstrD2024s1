@@ -356,16 +356,18 @@ nombreDelProyecto (ConsProyecto n) = n
 
 --Dada una empresa indica la cantidad de desarrolladores senior que posee, que pertecen además a los proyectos dados por parámetro
 losDevSenior :: Empresa -> [Proyecto] -> Int
-losDevSenior (ConsEmpresa rs) ps = cantidadDeProyectosEnComunHechosPorSenior(proyectosSenior rs) ps
+losDevSenior (ConsEmpresa rs) ps = cantidadDeDevsSenior rs ps
 
-proyectosSenior :: [Rol] -> [Proyecto]
-proyectosSenior [] = []
-proyectosSenior (r : rs) = proyectoSeniorDelRolActual r ++  proyectosSenior rs 
+cantidadDeDevsSenior :: [Rol] -> [Proyecto] -> Int
+cantidadDeDevsSenior [] ps = 0
+cantidadDeDevsSenior (r:rs) ps = if esSenior (seniority r) && trabajaEnAlgunProyecto r ps
+                                    then 1 + cantidadDeDevsSenior rs ps
+                                    else cantidadDeDevsSenior rs ps
+    -- si es senior y trabaja en ps, sumar 1 y sino 0...
 
-proyectoSeniorDelRolActual :: Rol -> [Proyecto]
-proyectoSeniorDelRolActual rol = if esSenior (seniority rol)
-                                                then [(proyecto rol)]
-                                                else []
+trabajaEnAlgunProyecto :: Rol -> [Proyecto] -> Bool
+trabajaEnAlgunProyecto r [] = False
+trabajaEnAlgunProyecto r (p : ps) = mismoProyecto (proyecto r) p || trabajaEnAlgunProyecto r ps
 
 esSenior :: Seniority -> Bool
 esSenior Senior = True
@@ -379,16 +381,35 @@ proyecto :: Rol -> Proyecto
 proyecto (Developer _ p) = p
 proyecto(Management _ p) = p
 
-{-proyectoSeniorDelRolActual :: Rol -> [Proyecto]
-proyectoSeniorDelRolActual (Developer Senior p) = [p]
-proyectoSeniorDelRolActual (Management Senior p) = [p]
-proyectoSeniorDelRolActual _ = []-}
+mismoProyecto :: Proyecto -> Proyecto -> Bool
+mismoProyecto (ConsProyecto n1) (ConsProyecto n2) = n1 == n2
 
-cantidadDeProyectosEnComunHechosPorSenior :: [Proyecto] -> [Proyecto] -> Int
+{-cantidadDeProyectosEnComunHechosPorSenior :: [Proyecto] -> [Proyecto] -> Int
 cantidadDeProyectosEnComunHechosPorSenior [] _ = 0
 cantidadDeProyectosEnComunHechosPorSenior (p : ps1) ps2 = if listaProyectosContiene ps2 p
                                                             then 1 + cantidadDeProyectosEnComunHechosPorSenior ps1 ps2
                                                             else cantidadDeProyectosEnComunHechosPorSenior ps1 ps2
+-}
+{-listaProyectosContiene :: [Proyecto] -> Proyecto -> Bool
+listaProyectosContiene [] _ = False
+listaProyectosContiene (p1 : p1s) p2 = mismoProyecto p1 p2 || listaProyectosContiene p1s p2
+-}
+
+{-proyectosSenior :: [Rol] -> [Proyecto]
+proyectosSenior [] = []
+proyectosSenior (r : rs) = proyectoSeniorDelRolActual r ++  proyectosSenior rs 
+-}
+
+{-proyectoSeniorDelRolActual :: Rol -> [Proyecto]
+proyectoSeniorDelRolActual rol = if esSenior (seniority rol)
+                                                then [(proyecto rol)]
+                                                else []
+-}
+
+{-proyectoSeniorDelRolActual :: Rol -> [Proyecto]
+proyectoSeniorDelRolActual (Developer Senior p) = [p]
+proyectoSeniorDelRolActual (Management Senior p) = [p]
+proyectoSeniorDelRolActual _ = []-}
 
 {--- devuelve una lista de proyectos que se encuentran en ambas listas
 proyectosEnComun :: [Proyecto] -> [Proyecto] -> [Proyecto]
@@ -398,12 +419,6 @@ proyectosEnComun (p : ps1) ps2 = if listaProyectosContiene ps2 p
                                     then p : proyectosEnComun ps1 ps2
                                     else proyectosEnComun ps1 ps2
 -}
-listaProyectosContiene :: [Proyecto] -> Proyecto -> Bool
-listaProyectosContiene [] _ = False
-listaProyectosContiene (p1 : p1s) p2 = mismoProyecto p1 p2 || listaProyectosContiene p1s p2
-
-mismoProyecto :: Proyecto -> Proyecto -> Bool
-mismoProyecto (ConsProyecto n1) (ConsProyecto n2) = n1 == n2
 
 --3.3.c
 
