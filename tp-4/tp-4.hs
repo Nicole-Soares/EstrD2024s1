@@ -343,7 +343,7 @@ La estructura es la siguiente:-}
 type Presa = String -- nombre de presa
 type Territorio = String -- nombre de territorio
 type Nombre = String -- nombre de lobo
-data Lobo = Cazador Nombre [Presa] Lobo Lobo Lobo | Explorador Nombre [Territorio] Lobo Lobo | Cría Nombre
+data Lobo = Cazador Nombre [Presa] Lobo Lobo Lobo | Explorador Nombre [Territorio] Lobo Lobo | Cria Nombre
 data Manada = M Lobo
 
 --4.1. 
@@ -351,10 +351,21 @@ data Manada = M Lobo
 crías. Resolver las siguientes funciones utilizando recursión estructural sobre la estructura
 que corresponda en cada caso:-}
 
-{-manada1 = M lobo1
+manada = M lobo_cazador
+lobo_cazador = Cazador "Carlitos" presas lobo_explorador1 lobo_explorador2 lobo_cazador2
+presas = ["Bambi", "Simba"]
 
-lobo1 = Cazador "Carlitos" 
--}
+lobo_cazador2 = Cazador "Pepita" presas lobo_cria1 lobo_cria2 lobo_cria3
+lobo_explorador1= Explorador "Pipi" territios1 lobo_cria2 lobo_cria3
+lobo_explorador2= Explorador "Cucu" territios2 lobo_cria2 lobo_cria3
+
+territios1 = ["Buenos Aires", "Francia"]
+territios2 = ["Grecia", "Italia"]
+lobo_cria1 = Cria "Simba"
+
+lobo_cria2 = Cria "Dumbo"
+
+lobo_cria3 = Cria "Sebastian"
 --4.2
 buenaCaza :: Manada -> Bool
 --Propósito: dada una manada, indica si la cantidad de alimento cazado es mayor a la cantidad de crías.
@@ -364,7 +375,7 @@ cantidadDeAlimento :: Manada -> Int
 cantidadDeAlimento (M l) = cantidadDeAlimentoL l
 
 cantidadDeAlimentoL :: Lobo -> Int
-cantidadDeAlimentoL (Cría _) = 0
+cantidadDeAlimentoL (Cria _) = 0
 cantidadDeAlimentoL (Cazador _ ps l1 l2 l3) = cantidadDeAlimentoP ps + cantidadDeAlimentoL l1 + cantidadDeAlimentoL l2 + cantidadDeAlimentoL l3
 cantidadDeAlimentoL (Explorador _ _ l1 l2) =  cantidadDeAlimentoL l1 + cantidadDeAlimentoL l2 
 
@@ -376,7 +387,7 @@ cantidadDeCrias :: Manada -> Int
 cantidadDeCrias (M l) = cantidadDeCriasL l
 
 cantidadDeCriasL :: Lobo -> Int
-cantidadDeCriasL (Cría _) = 1
+cantidadDeCriasL (Cria _) = 1
 cantidadDeCriasL (Cazador _ ps l1 l2 l3) =  cantidadDeCriasL l1 + cantidadDeCriasL l2 + cantidadDeCriasL l3
 cantidadDeCriasL (Explorador _ _ l1 l2) =  cantidadDeCriasL l1 + cantidadDeCriasL l2 
 
@@ -390,7 +401,7 @@ cero presas.-}
 elAlfa (M l) = elAlfaL l
 
 elAlfaL :: Lobo -> (Nombre, Int)
-elAlfaL (Cría n) = (n, 0)
+elAlfaL (Cria n) = (n, 0)
 elAlfaL (Cazador n ps l1 l2 l3) = elegirEntre (n, (cantidadDeAlimentoP ps)) (elegirEntre (elAlfaL l1) (elegirEntre (elAlfaL l2) (elAlfaL l3)))
 elAlfaL (Explorador n _ l1 l2) =  elegirEntre (elAlfaL l1) (elegirEntre (elAlfaL l2) (n, 0))
 
@@ -406,7 +417,7 @@ pasaron por dicho territorio.-}
 losQueExploraron t (M l) = losQueExploraronLobo t l
 
 losQueExploraronLobo :: Territorio -> Lobo -> [Nombre]
-losQueExploraronLobo _ (Cría _) = [] 
+losQueExploraronLobo _ (Cria _) = [] 
 losQueExploraronLobo t (Cazador _ _ l1 l2 l3) = losQueExploraronLobo t l1 ++ losQueExploraronLobo t l2 ++ losQueExploraronLobo t l3
 losQueExploraronLobo t (Explorador n ts l1 l2) =  singularSi n (territoriosExploradosPorElLoboContienenA t ts) ++ losQueExploraronLobo t l1 ++ losQueExploraronLobo t l2
 
@@ -421,7 +432,7 @@ dicho territorio. Los territorios no deben repetirse.-}
 exploradoresPorTerritorio (M l) = exploradoresPorTerritorioLobo l
 
 exploradoresPorTerritorioLobo :: Lobo -> [(Territorio, [Nombre])]
-exploradoresPorTerritorioLobo (Cría _) = [] 
+exploradoresPorTerritorioLobo (Cria _) = [] 
 exploradoresPorTerritorioLobo (Cazador _ _ l1 l2 l3) = exploradoresPorTerritorioLobo l1 ++ exploradoresPorTerritorioLobo l2 ++ exploradoresPorTerritorioLobo l3
 exploradoresPorTerritorioLobo (Explorador n ts l1 l2) = agregar n ts (exploradoresPorTerritorioLobo l1 ++ exploradoresPorTerritorioLobo l2)
 
@@ -444,14 +455,14 @@ Precondición: hay un cazador con dicho nombre y es único.-}
 superioresDelCazador n (M l) = superioresDelCazadorLobo n l
 
 superioresDelCazadorLobo :: Nombre -> Lobo -> [Nombre]
-superioresDelCazadorLobo _ (Cría _) = [] 
+superioresDelCazadorLobo _ (Cria _) = [] 
 superioresDelCazadorLobo n (Cazador nc _ l1 l2 l3) = if cazardorEsSuperiorDe l1 n || cazardorEsSuperiorDe l2 n || cazardorEsSuperiorDe l3 n
                                                        then nc :  superioresDelCazadorLobo n l1 ++ superioresDelCazadorLobo n l2 ++ superioresDelCazadorLobo n l3
                                                        else superioresDelCazadorLobo n l1 ++ superioresDelCazadorLobo n l2 ++ superioresDelCazadorLobo n l3
 superioresDelCazadorLobo n (Explorador ne ts l1 l2) = superioresDelCazadorLobo n l1 ++ superioresDelCazadorLobo n l2 
 
 cazardorEsSuperiorDe :: Lobo  -> Nombre -> Bool
-cazardorEsSuperiorDe (Cría nc) n = nc == n
+cazardorEsSuperiorDe (Cria nc) n = nc == n
 cazardorEsSuperiorDe (Cazador nc _ _ _ _) n = nc == n
 cazardorEsSuperiorDe (Explorador ne _ _ _ ) n = ne == n
 
