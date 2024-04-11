@@ -182,6 +182,7 @@ todosLosCaminos (Bifurcacion _ izq der) =  agregarDir Izq (todosLosCaminos izq) 
 
 agregarDir :: Dir -> [[Dir]] -> [[Dir]]
 agregarDir dir [] = [[dir]]
+agregarDir dir (drs : []) =   [(dir : drs )] -- si queda un elemento o es solo un elemento, le agrego la dir a esa lista
 agregarDir dir (drs : drss) =   (dir : drs ) : agregarDir dir drss 
 
 --3 NAVE ESPACIAL
