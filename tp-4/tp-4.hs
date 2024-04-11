@@ -178,7 +178,11 @@ juntarlos (xs : xss) ( ys : yss) = (xs ++ ys) : juntarlos xss yss -- junto en un
 todosLosCaminos :: Mapa -> [[Dir]]
 --Devuelve todos lo caminos en el mapa.
 todosLosCaminos (Fin _) = []
-todosLosCaminos (Bifurcacion _ izq der) =  [Izq] : (todosLosCaminos izq) ++ [Der] : (todosLosCaminos der)
+todosLosCaminos (Bifurcacion _ izq der) =  agregarDir Izq (todosLosCaminos izq) ++ agregarDir Der (todosLosCaminos der)
+
+agregarDir :: Dir -> [[Dir]] -> [[Dir]]
+agregarDir dir [] = [[dir]]
+agregarDir dir (drs : drss) =   (dir : drs ) : agregarDir dir drss 
 
 --3 NAVE ESPACIAL
 
