@@ -41,7 +41,7 @@ sacar c1 (Bolita c2 celda) = if mismoColor c1 c2
 
 --Dado un número n, un color c, y una celda, agrega n bolitas de color c a la celda.
 ponerN :: Int -> Color -> Celda -> Celda
-ponerN 0 _ _ = CeldaVacia
+ponerN 0 _ c = c -- devuelvo la misma celda que me dieron como argumento
 ponerN n c celda = poner c (ponerN ( n - 1) c celda)  
 
 --1.2  CAMINO HACIA EL TESORO
