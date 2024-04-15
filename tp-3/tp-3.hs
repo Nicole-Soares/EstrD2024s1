@@ -264,9 +264,15 @@ aparicionesT x (NodeT y arbol1 arbol2) = unoSiCeroSino (x == y) + aparicionesT x
 
 --2.1.6
 leaves :: Tree a -> [a]
---Dado un árbol devuelve los elementos que se encuentran en sus hojas.
+--Dado un árbol devuelve los elementos que se encuentran en sus hojas. (donde finaliza)
 leaves EmptyT = []
-leaves (NodeT x arbol1 arbol2) = x : leaves arbol1 ++ leaves arbol2
+leaves (NodeT x arbol1 arbol2) = if esEmptyT arbol1 && esEmptyT arbol2
+                                    then [x]
+                                    else  leaves arbol1 ++ leaves arbol2
+    
+esEmptyT :: Tree a -> Bool
+esEmptyT EmptyT = True
+esEmptyT _ = False
 
 --2.1.7
 heightT :: Tree a -> Int
