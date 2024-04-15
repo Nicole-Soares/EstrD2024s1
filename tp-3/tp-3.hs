@@ -57,7 +57,7 @@ camino5 = Cofre listaObje3 camino6
 camino6= Fin
 listaObje1 = [Cacharro, Cacharro]
 listaObje2 = [Tesoro, Tesoro]
-listaObje3 = [Cacharro, Cacharro, Cacharro]
+listaObje3 = [Tesoro, Tesoro, Cacharro]
 
 --1.2.a
 
@@ -130,6 +130,23 @@ buscarTesoro n1 (Cofre objs c) = if n1 == 0
 
 --Indica si hay al menos "n" tesoros en el camino.
 alMenosNTesoros :: Int -> Camino -> Bool
+alMenosNTesoros 0 c = hayTesoro' c
+alMenosNTesoros n (Fin) = False
+alMenosNTesoros n (Nada c) = alMenosNTesoros n c
+alMenosNTesoros n (Cofre objs c) =  hayNTesorosEn n objs || alMenosNTesoros (n - cantidadDeTesoros objs) c
+                                     
+hayNTesorosEn :: Int -> [Objeto] -> Bool
+hayNTesorosEn _ [] = False
+hayNTesorosEn 0 (x : _) = esUnTesoro x
+hayNTesorosEn n (x : xs) = if esUnTesoro x 
+                            then hayNTesorosEn (n - 1) xs
+                            else hayNTesorosEn n xs                                      
+                            
+--cantidadDeTesoros objs >= n 
+ {-if hayTesoroEnLosObjetos objs
+                                        then alMenosNTesoros (n - 1) c -- encontró un tesoro, entonces falta uno menos para encontrar
+                                        else alMenosNTesoros n c -- no encontró nada-}
+{-alMenosNTesoros :: Int -> Camino -> Bool
 alMenosNTesoros n c = mismaCantidadDeTesoros n (cantidadTotalDeTesorosDelCamino c) -- comparo si la cantidad dada por parámetro es igual al total de tesoros que tiene ese camino
 
 mismaCantidadDeTesoros :: Int -> Int -> Bool
@@ -139,6 +156,7 @@ cantidadTotalDeTesorosDelCamino :: Camino -> Int -- calculo la cantidad total de
 cantidadTotalDeTesorosDelCamino Fin = 0
 cantidadTotalDeTesorosDelCamino (Nada c) = 0 + cantidadTotalDeTesorosDelCamino c
 cantidadTotalDeTesorosDelCamino (Cofre objs c) = cantidadDeTesoros objs +  cantidadTotalDeTesorosDelCamino c  
+-}
 
 cantidadDeTesoros :: [Objeto] -> Int -- hago recursion en la lista de objetos para ir contando los objetos que son tesoros
 cantidadDeTesoros [] = 0
