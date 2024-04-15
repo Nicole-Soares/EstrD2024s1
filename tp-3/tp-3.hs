@@ -328,6 +328,12 @@ juntarNiveles (xs:xss) (ys:yss) = (xs ++ ys) : juntarNiveles xss yss
 ramaMasLarga :: Tree a -> [a]
 --Devuelve los elementos de la rama más larga del árbol
 ramaMasLarga EmptyT = []
+ramaMasLarga (NodeT a t1 t2) = if length (ramaMasLarga t1) > length (ramaMasLarga t2)
+                                 then a : ramaMasLarga(t1)
+                                 else a : ramaMasLarga(t2)
+
+
+{-ramaMasLarga EmptyT = []
 ramaMasLarga (NodeT _ ramaizq ramader) = elementosDelArbol(laRamaMasLarga ramaizq ramader)
 
 laRamaMasLarga :: Tree a -> Tree a -> Tree a
@@ -337,7 +343,7 @@ laRamaMasLarga arbol1  arbol2 = if heightT arbol1 > heightT arbol2
 
 elementosDelArbol :: Tree a -> [a]
 elementosDelArbol EmptyT = []
-elementosDelArbol (NodeT x ramaizq ramader) = x : elementosDelArbol ramaizq ++ elementosDelArbol ramader
+elementosDelArbol (NodeT x ramaizq ramader) = x : elementosDelArbol ramaizq ++ elementosDelArbol ramader-}
 
 --2.1.13
 
@@ -371,27 +377,14 @@ eval (Neg expa) = - eval expa
 --2.2.a
 simplificar :: ExpA -> ExpA
 --Dada una expresión aritmética, la simplifica según los siguientes criterios (descritos utilizando notación matemática convencional):
--- 0 + x = x + 0 = x
 simplificar (Sum (Valor 0) e) = simplificar e
 simplificar (Sum e (Valor 0)) = simplificar e
-simplificar e = e
-
---2.2.b
--- 0 * x = x * 0 = 0
-simplificar2 :: ExpA -> ExpA
-simplificar2 (Prod (Valor 0) e) = simplificar e
-simplificar2 (Prod e (Valor 0)) = simplificar e
-simplificar2 e = e
-
---2.2.c
---1 * x = x * 1 = x
-simplificar3 :: ExpA -> ExpA
-simplificar3 (Prod (Valor 1) e ) = simplificar3 e
-simplificar3 (Prod e (Valor 1))  = simplificar3 e
-simplificar3 e = e
-
-
---2.2.d
--- - (- x) = x
-simplificar4 :: ExpA -> ExpA
-simplificar4 (Neg(Neg(Valor e))) = Valor e
+simplificar (Prod (Valor 0) _) = Valor 0
+simplificar (Prod _ (Valor 0)) = Valor 0
+simplificar (Prod (Valor 1) e) = simplificar e
+simplificar (Prod e (Valor 1)) = simplificar e
+simplificar (Neg (Neg e)) = simplificar e
+simplificar (Neg e) = Neg (simplificar e)
+simplificar (Sum e1 e2) = Sum (simplificar e1) (simplificar e2)
+simplificar (Prod e1 e2) = Prod (simplificar e1) (simplificar e2)
+simplificar (Valor n) = Valor n
