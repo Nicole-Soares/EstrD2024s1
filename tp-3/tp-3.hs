@@ -276,7 +276,7 @@ de niveles del árbol1
 . La altura para EmptyT es 0, y para una hoja es 1.
 -}
 heightT EmptyT = 0
-heightT (NodeT _ arbol1 arbol2) = 1 + heightT arbol1 + heightT arbol2
+heightT (NodeT _ arbol1 arbol2) = 1 + max (heightT arbol1)  (heightT arbol2)
 
 --2.1.8
 mirrorT :: Tree a -> Tree a
