@@ -99,6 +99,19 @@ pasos es 5, indica si hay un tesoro en 5 pasos.
 -}
 
 hayTesoroEn :: Int -> Camino -> Bool
+hayTesoroEn 0 c = hayTesoro' c
+hayTesoroEn _ (Fin) =  False
+hayTesoroEn n (Cofre ls c) =  hayTesoroEn (n - 1) c
+hayTesoroEn n (Nada c) =  hayTesoroEn (n - 1) c
+
+--indica si hay un tesoro en el camino actual y no en los que le siguen
+hayTesoro' :: Camino -> Bool
+hayTesoro' (Fin) = False
+hayTesoro' (Nada _) = False
+hayTesoro' (Cofre objs _) = hayTesoroEnLosObjetos objs
+
+{-
+hayTesoroEn :: Int -> Camino -> Bool
 hayTesoroEn n Fin = False
 hayTesoroEn n c = buscarTesoro n  c
 
@@ -111,7 +124,7 @@ buscarTesoro n1 (Cofre objs c) = if n1 == 0
                                         then hayTesoroEnLosObjetos objs
                                         else buscarTesoro (n1 - 1) c
 
-
+-}
 
 --1.2.d
 
