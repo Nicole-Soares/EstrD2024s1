@@ -5,12 +5,11 @@ module SetV2
  where
 
 
-data Set a = S [a] Int deriving Show
-            -- lista con repetidos, cantidad de elementos en la estructura
+data Set a = S [a]  deriving Show
+            -- lista con repetidos
 {-
-    INV.REP.: en S xs n
-            *si xs es vacío, n es cero
-            *
+    INV.REP.: en S xs 
+            --
 
 -}
 emptyS :: Set a -- Constante
@@ -26,18 +25,24 @@ set1 = addS 8 (addS 5 (addS 4 emptyS))
 set2= (addS 10 (addS 9 emptyS))
 --implementacion de las operaciones
 
-emptyS = S [] 0
+emptyS = S [] 
 ---------------
-addS a (S xs n) =   S (a : xs ) (n + 1) -- no se fija si ya estan en la lista
+addS a (S xs ) =   S (a : xs )  -- no se fija si ya estan en la lista
 ---------------------------------
-belongs a (S xs _) = pertenece a xs
+belongs a (S xs ) = pertenece a xs
  ------------------   
 --practica 2 
 pertenece :: Eq a => a -> [a] -> Bool
 pertenece _ [] = False
 pertenece x (y : ys) = x == y || pertenece x ys
 -------------
-sizeS (S _ n) = n
+sizeS (S xs ) = cantidadDeElementosNoRepetidos xs
+
+cantidadDeElementosNoRepetidos :: [a] -> Int
+cantidadDeElementosNoRepetidos [] =
+cantidadDeElementosNoRepetidos (x:xs) = if pertenece x xs
+                                            then cantidadDeElementosNoRepetidos xs
+                                            else 1 cantidadDeElementosNoRepetidos xs
 ---------------------------
 removeS y (S xs n) = S (listaSinElElemento xs y ) (n - cantidadDeVecesQueEstaElElemento y xs)
 listaSinElElemento :: Eq a =>  [a] -> a -> [a]
