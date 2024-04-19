@@ -8,7 +8,7 @@ data Set a = S [a] Int deriving Show
 {-
     INV.REP.: en S xs n
             *si xs es vacío, n es cero  PREGUNTAR, invt rep y si hay que hacer costos
-            *
+            * xs no tiene repetidos 
 
 -}
 emptyS :: Set a --Crea un conjunto vacío. Constante
