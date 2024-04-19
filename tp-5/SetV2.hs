@@ -8,7 +8,11 @@ module SetV2
 data Set a = S [a]  deriving Show
             -- lista con repetidos
 {-
+<<<<<<< HEAD
     INV.REP.: 
+=======
+    INV.REP.: en S xs 
+>>>>>>> 3eb533d2486986fa470c6a6133592183e6f957c2
             --
 
 -}
@@ -58,7 +62,11 @@ set1 = addS 8 (addS 5 (addS 4 emptyS))
 set2= (addS 10 (addS 9 emptyS))
 --implementacion de las operaciones
 
+<<<<<<< HEAD
 
+=======
+emptyS = S [] 
+>>>>>>> 3eb533d2486986fa470c6a6133592183e6f957c2
 ---------------
 addS a (S xs ) =   S (a : xs )  -- no se fija si ya estan en la lista
 ---------------------------------

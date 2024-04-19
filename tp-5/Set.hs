@@ -7,15 +7,20 @@ data Set a = S [a] Int deriving Show
             -- lista sin repetidos, cantidad de elementos en la estructura
 {-
     INV.REP.: en S xs n
+<<<<<<< HEAD
             *si xs es vacío, n es cero  PREGUNTAR, invt rep y si hay que hacer costos
             * xs no tiene repetidos 
+=======
+            *n es la longitud de xs
+            *
+>>>>>>> 3eb533d2486986fa470c6a6133592183e6f957c2
 
 -}
 emptyS :: Set a --Crea un conjunto vacío. Constante
 addS :: Eq a => a -> Set a -> Set a --  Lineal
 belongs :: Eq a => a -> Set a -> Bool --Dados un elemento y un conjunto indica si el elemento pertenece al conjunto. Lineal
 sizeS :: Eq a => Set a -> Int --Devuelve la cantidad de elementos distintos de un conjunto. Constante
-removeS :: Eq a => a -> Set a -> Set a -- Borra un elemento del conjunto Lineal
+removeS :: Eq a => a -> Set a -> Set a -- Borra un elemento del conjunto | Lineal
 unionS :: Eq a => Set a -> Set a -> Set a --Dados dos conjuntos devuelve un conjunto con todos los elementos de ambos conjuntos. Lineal
 setToList :: Eq a => Set a -> [a] --Dado un conjunto devuelve una lista con todos los elementos distintos del conjunto. Constante
 
