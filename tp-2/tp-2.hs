@@ -471,6 +471,7 @@ rolesDeLaEmpresa (ConsEmpresa rs) = rs
 
 asignadosPorProyecto :: Empresa -> [(Proyecto, Int)]
 asignadosPorProyecto (ConsEmpresa rl) = listaDeTuplasDeEmpleadosYSuProyecto rl
+
 listaDeTuplasDeEmpleadosYSuProyecto  ::  [Rol]  -> [(Proyecto, Int)]
 listaDeTuplasDeEmpleadosYSuProyecto [] = []
 listaDeTuplasDeEmpleadosYSuProyecto (r: rs) =  unoSiEstaEnLaListaSinoCreoTupla r (listaDeTuplasDeEmpleadosYSuProyecto rs)

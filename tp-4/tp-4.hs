@@ -467,9 +467,13 @@ superioresDelCazadorLobo n (Cazador nc _ l1 l2 l3) = if cazardorEsSuperiorDe l1 
 superioresDelCazadorLobo n (Explorador ne ts l1 l2) = superioresDelCazadorLobo n l1 ++ superioresDelCazadorLobo n l2 
 
 cazardorEsSuperiorDe :: Lobo  -> Nombre -> Bool
-cazardorEsSuperiorDe (Cria nc) n = nc == n
+cazardorEsSuperiorDe (Cria nc) n = nc == n 
 cazardorEsSuperiorDe (Cazador nc _ _ _ _) n = nc == n
 cazardorEsSuperiorDe (Explorador ne _ _ _ ) n = ne == n
+
+
+
+
 
 
 

@@ -39,7 +39,7 @@ belongs x (S ls) = pertenece x ls
  
 -----práctica 2
 --en el peor de los casos es lineal (?)
-pertenece :: a -> [a] -> Bool
+pertenece :: Eq a => a -> [a] -> Bool
 pertenece x (y : ys) = x == y || pertenece x ys
 ----------------
 
@@ -52,7 +52,7 @@ pertenece x (y : ys) = x == y || pertenece x ys
 sizeS :: Eq a => Set a -> Int 
 sizeS (S ls) = cantidadDeElementosNoRepetidos ls
 
-cantidadDeElementosNoRepetidos :: [a] -> Int
+cantidadDeElementosNoRepetidos :: Eq a => [a] -> Int
 cantidadDeElementosNoRepetidos [] = 0
 cantidadDeElementosNoRepetidos (x : xs) = if pertenece x xs
                                             then cantidadDeElementosNoRepetidos xs
@@ -65,7 +65,7 @@ cantidadDeElementosNoRepetidos (x : xs) = if pertenece x xs
 removeS :: Eq a => a -> Set a -> Set a 
 removeS x (S ls) = S (delete x ls)
 
-delete :: a -> [a] -> [a]
+delete :: Eq a => a -> [a] -> [a]
 delete _ [] = []
 delete x (y : ys) = if x == y
                        then ys 
@@ -81,7 +81,7 @@ delete x (y : ys) = if x == y
 unionS :: Eq a => Set a -> Set a -> Set a 
 unionS (S ls) set = agregar ls set
 
-agregar :: [a] -> Set a -> Set a
+agregar ::Eq a => [a] -> Set a -> Set a
 agregar [] set = set
 agregar (x : xs) set = addS x ( agregar xs set)
 
@@ -95,7 +95,7 @@ agregar (x : xs) set = addS x ( agregar xs set)
 setToList :: Eq a => Set a -> [a] 
 setToList (S ls) = setToListS ls
 
-setToListS :: [a] -> [a]
+setToListS ::  Eq a => [a] -> [a]
 setToListS [] = []
 setToListS (x : xs) = if pertenece x xs
                         then setToListS xs
