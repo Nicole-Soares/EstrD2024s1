@@ -127,7 +127,7 @@ intersectionMS (MS map1) (MS map2) = MS(iguales (keys map1) map1 map2)
 -- O(n * (m + m + n + m + 1 + n))
 -- O(n * (3m + 2n +1))
 -- O(3nm + 2n^2 + n)
--- O(nm) o O(n^2) ?
+-- O(nm + n^2)
 
 
 -- O(n*m), con m <= n -> O(n^2), porque en el peor de los casos m == n
