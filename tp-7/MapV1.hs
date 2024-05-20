@@ -1,10 +1,10 @@
-module Map --claves no repetidas
+module MapV1 --claves no repetidas
     (Map, emptyM, assocM, lookupM, deleteM, keys)
 where
 
 
 data Map k v = M [(k, v)] deriving Show
-                -- lista de clave (k) y valor (v)
+                -- lista de tuplas clave (k) y valor (v)
 
     {- INV.REP.: (M kvs)
         En kvs no hay  claves repetidas

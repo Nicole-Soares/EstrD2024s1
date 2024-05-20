@@ -194,6 +194,13 @@ contarTesorosHastElMaxDelRango Fin _ = 0
 contarTesorosHastElMaxDelRango (Nada c) n = contarTesorosHastElMaxDelRango c (n - 1)
 contarTesorosHastElMaxDelRango (Cofre objs c) n =  cantidadDeTesoros objs + contarTesorosHastElMaxDelRango c (n - 1)
 
+{-cantTesorosEntre :: Int -> Int -> Camino -> Int  
+cantTesorosEntre _ _ Fin              = 0
+cantTesorosEntre 0 n (Nada c) = cantTesorosEntre 0 (n - 1) c
+cantTesorosEntre 0 0 (Nada c) = 0
+cantTesorosEntre 0 n2 (Cofre objs c) = cantidadDeTesoros objs + cantTesorosEntre 0 n2 - 1 
+cantTesorosEntre 0 0 (Cofre objs c) = cantidadDeTesoros objs 
+cantTesorosEntre n1 n2 (Cofre objs c) =  cantTesorosEntre (n1 - 1) (n2 - 1) -}
 
 --2. TIPOS ARBÓREOS
 

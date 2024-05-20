@@ -26,8 +26,11 @@ enqueue x (Q fs bs) = if null fs
                         then Q (x : fs)  bs
                         else Q fs (x : bs) -- bs esta dado vuelta, por eso despues hago reverse preguntar??
 firstQ (Q fs bs) = head fs 
-dequeue (Q fs bs) = if null fs 
+dequeue (Q fs bs) = if null (tail fs)
+                      then Q (tail (reverse bs)) []   
+                      else Q (tail fs) bs
+   {- if null fs -- rompe la invariante, fs nunca debe llegar a estar vacio si tiene elementos en bs
                     then Q (tail (reverse bs)) [] -- constante amortizada porque es constante pero muy pocas veces puede que no sea (cuando fs este vacía y tengamos que pasarle lo de bs ahi es un caso no constante)
-                    else Q (tail fs) bs
+                    else Q (tail fs) bs-}
 
 --PREGUNTAR SI ESTA BIEN

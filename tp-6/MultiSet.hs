@@ -98,13 +98,12 @@ unionDeValores' _ _ = 0
 Propósito: dados dos multiconjuntos devuelve el multiconjunto de elementos que ambos
 multiconjuntos tienen en común.
 -}
---O(n #cantidad de claves de map1
+--O(n #por el tiempo de ejecucion de la funcion keys sobre map1
 -- +
--- n' #cantidad de claves de map2
--- +
---(n * (m + n +  m)) #por la subatarea iguales sobre map1 y map2)
--- n + n' + (n * (m + n +  m))
---O (n^2)
+--(n * (m + m + n + m + 1 + n)) #por la subatarea iguales sobre map1 y map2)
+-- O(n + (n * (m + m + n + m + 1 + n)))
+--O (n + n( * (3m + 2n)))
+--O (n + 3nm + 2n^2)
 intersectionMS :: Ord a => MultiSet a -> MultiSet a -> MultiSet a --(opcional)
 intersectionMS (MS map1) (MS map2) = MS(iguales (keys map1) map1 map2)
 

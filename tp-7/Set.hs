@@ -79,31 +79,3 @@ setToList (S ls n) = ls
 pertenece :: Eq a => a -> [a] -> Bool
 pertenece _ [] = False
 pertenece x (y : ys) = x == y || pertenece x ys
-
-
-
-
-
-bajaDeTripulante :: Tripulante -> Nave -> Nave
-bajaDeTripulante t n = naveSinTripulante t n (sectores n) (naveVacia (sectores n))
-
-
-naveSinTripulante :: Tripulante -> Nave -> [Sector] -> Nave -> Nave
-naveSinTripulante _ _  [] nnueva = nnueva
--- Por cada sector, voy a agregar cada uno de los tripulantes que no sean t
-naveSinTripulante t nvieja (s:ss) nnueva = naveSinTripulante t nvieja ss (agregarTripulantesAlSector t (set2list (tripulantesDe s nvieja)) s nnueva)
-    
-    agregarTripulantesAlSector 
-
--- Trabajo sobre un solo sector
--- Traigo el Set Tripulantes y chequeo que no exista el tripulante actual
--- Retorno la nave con el sector con todos sus tripulantes
-agregarTripulantesAlSector :: Eq Tripulante => Tripulante -> [Tripulante] -> Sector -> Nave -> Nave
-agregarTripulantesAlSector t [] sector nave = nave
-agregarTripulantesAlSector t (trip:trips) sector nave = if t == trip
-                                                        then agregarTripulantesAlSector t trips sector nave
-                                                        else agregarTripulantesAlSector t trips sector (agregarTripulante trip sector nave)
-
-
-
-

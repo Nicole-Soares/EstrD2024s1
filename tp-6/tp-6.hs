@@ -62,7 +62,7 @@ todasAsociadas ks m = todasPertenecen ks (keys m)
 --O(n # es la longitud de la lista [k] que hace recursion sobre la misma
 -- * por cada elemento de la lista [k] se hace otra recursion sobre ks
 -- m # es la longitud de la lista [ks] que hace recursion sobre la misma)
---O(n*m) = O(n^2)
+--O(n*m) = O(n^2) o O(m^2)
 todasPertenecen :: Eq k => [k] -> [k] -> Bool
 todasPertenecen [] _ = True
 todasPertenecen (k : ks) ks' = pertenece k ks' && todasPertenecen ks ks'

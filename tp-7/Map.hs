@@ -1,7 +1,7 @@
 module Map 
     (Map, emptyM, assocM, lookupM, deleteM, keys)
 where
-import Data.Sequence (Seq(Empty))
+
 
 
 data Tree k v = EmptyT | NodeT (k, v) (Tree k v) (Tree k v)
@@ -107,4 +107,4 @@ assocT x y (NodeAVL int (k, v) ti td) = if x == k
                                             then NodeAVL int assocM x y ti
                                             else assocM x y td-}
 
-                                         
+                                        
